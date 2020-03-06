@@ -1,3 +1,4 @@
 .idea
 *.iml
 temp.txt
+config.py

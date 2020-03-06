@@ -1,8 +1,10 @@
+import config as cfg
+
 from bottle import route, view, request, response, redirect, default_app, run
 from pymongo import MongoClient
 
 
-client = MongoClient(host='192.168.0.13', port=9017, username='jroot', password='qwe123')
+client = MongoClient(host=cfg.mongo_host, port=cfg.mongo_port, username=cfg.mongo_username, password=cfg.mongo_password)
 notes_db = client.boox_notes
 text_prefix = '【content】'
 note_prefix = '【note】'
@@ -23,7 +25,7 @@ def upload_boox():
         return dict(message='Only text files allowed')
 
     added_notes = parse_boox_file(bfile)
-    return dict(message='Added notes' + str(added_notes))
+    return dict(message='Added notes: ' + str(added_notes))
 
 
 def parse_boox_file(bfile):
