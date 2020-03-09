@@ -4,7 +4,7 @@
     % for note in notes:
     <li>
         <blockquote class="blockquote">
-            <h4>{{note['book_title']}}</h4>
+            <h4>{{note['category']['title']}}</h4>
             <p class="mb-0">{{note['text']}}</p>
             <footer class="blockquote-footer text-right">{{note['location']}}</footer>
         </blockquote>
