@@ -4,6 +4,7 @@ import boox_parser
 from bottle import route, view, request, response, redirect, default_app, run
 from pymongo import MongoClient
 from bson import json_util
+from bson.objectid import ObjectId
 
 client = MongoClient(host=cfg.mongo_host, port=cfg.mongo_port, username=cfg.mongo_username, password=cfg.mongo_password)
 notes_db = client.book_notes
@@ -37,7 +38,14 @@ def find_random_note():
 @route('/list', method='GET')
 @view('list')
 def get_list():
-    notes = list(notes_db.notes.find({}))
+    categories = list(notes_db.category.find({}))
+    return dict(categories=categories)
+
+
+@route('/list/<category_id>', method='GET')
+@view('list_notes')
+def get_list_category(category_id):
+    notes = list(notes_db.notes.find({"category._id": ObjectId(category_id)}))
     return dict(notes=notes)
 
 
