@@ -1,5 +1,13 @@
 % rebase('base.tpl', page = 'List')
 
+<div class="row pb-3">
+    <div class="col-3">
+        <h5 class="text-center">Category</h5>
+    </div>
+    <div class="col-9">
+        <h5 class="text-center">Notes</h5>
+    </div>
+</div>
 <div class="row">
     <div class="col-3">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
