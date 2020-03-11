@@ -63,8 +63,13 @@ def upload_boox():
 
 
 @route('/icon/<filename>')
-def send_image(filename):
+def get_image(filename):
     return static_file(filename, root='./icons')
+
+
+@route('/favicon.ico', method='GET')
+def get_favicon():
+    return get_image("favicon.png")
 
 
 run(host='0.0.0.0', port=8080, debug=True, reloader=True)
