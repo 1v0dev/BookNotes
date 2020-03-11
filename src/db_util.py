@@ -7,6 +7,7 @@ notes_db = client.book_notes
 
 
 random_sample = [
+    {"$match": {"category.show_random": True}},
     {"$sample": {"size": 1}}
 ]
 

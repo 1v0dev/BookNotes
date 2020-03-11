@@ -1,5 +1,5 @@
 from src import boox_parser
-from bottle import route, view, request, run
+from bottle import route, view, request, run, static_file, HTTPResponse
 from bson.objectid import ObjectId
 
 from src.db_util import find_random_note, notes_db
@@ -29,8 +29,19 @@ def get_list():
 @route('/list/<category_id>', method='GET')
 @view('list_notes')
 def get_list_category(category_id):
+    category = notes_db.category.find_one({"_id": ObjectId(category_id)})
     notes = list(notes_db.notes.find({"category._id": ObjectId(category_id)}))
-    return dict(notes=notes)
+    return dict(category=category, notes=notes)
+
+
+@route('/list/<category_id>/toggle/random', method='POST')
+def toggle_category_show_random(category_id):
+    show_random = request.forms.show_random.lower() == "true"
+    notes_db.category.find_one_and_update({"_id": ObjectId(category_id)},
+                                          {"$set": {"show_random": show_random}})
+    notes_db.notes.update_many({"category._id": ObjectId(category_id)},
+                               {"$set": {"category.show_random": show_random}})
+    return HTTPResponse(status=200)
 
 
 @route('/upload', method='GET')
@@ -49,6 +60,11 @@ def upload_boox():
 
     added_notes = boox_parser.parse_boox_file(bfile, notes_db)
     return dict(message='Added notes: ' + str(added_notes))
+
+
+@route('/icon/<filename>')
+def send_image(filename):
+    return static_file(filename, root='./icons')
 
 
 run(host='0.0.0.0', port=8080, debug=True, reloader=True)
