@@ -15,7 +15,9 @@ def index():
 def get_random():
     note = find_random_note()['note']
     del note['category']
+    del note['category_id']
     note['_id'] = str(note['_id'])
+    print(note)
     return note
 
 

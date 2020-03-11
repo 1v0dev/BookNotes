@@ -22,7 +22,6 @@ random_sample = [
 def find_random_note():
     random_note_list = list(notes_db.notes.aggregate(random_sample))
     if random_note_list:
-        print(random_note_list[0])
         return dict(note=random_note_list[0])
     else:
         return dict(note=dict(category=dict(title='No notes'),
