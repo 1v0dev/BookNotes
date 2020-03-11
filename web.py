@@ -1,18 +1,8 @@
-import config as cfg
-import boox_parser
-
-from bottle import route, view, request, response, redirect, default_app, run
-from pymongo import MongoClient
-from bson import json_util
+from src import boox_parser
+from bottle import route, view, request, run
 from bson.objectid import ObjectId
 
-client = MongoClient(host=cfg.mongo_host, port=cfg.mongo_port, username=cfg.mongo_username, password=cfg.mongo_password)
-notes_db = client.book_notes
-
-
-random_sample = [
-    {"$sample": {"size": 1}}
-]
+from src.db_util import find_random_note, notes_db
 
 
 @route('/', method='GET')
@@ -23,16 +13,10 @@ def index():
 
 @route('/random', method='GET')
 def get_random():
-    return json_util.dumps(find_random_note())
-
-
-def find_random_note():
-    random_note_list = list(notes_db.notes.aggregate(random_sample))
-    if random_note_list:
-        return dict(note=random_note_list[0])
-    else:
-        return dict(note=dict(category=dict(title='No notes'),
-                              text='', location=''))
+    note = find_random_note()['note']
+    del note['category']
+    note['_id'] = str(note['_id'])
+    return note
 
 
 @route('/list', method='GET')
