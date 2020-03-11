@@ -30,7 +30,7 @@ def get_list():
 @view('list_notes')
 def get_list_category(category_id):
     category = notes_db.category.find_one({"_id": ObjectId(category_id)})
-    notes = list(notes_db.notes.find({"category._id": ObjectId(category_id)}))
+    notes = list(notes_db.notes.find({"category_id": ObjectId(category_id)}))
     return dict(category=category, notes=notes)
 
 
@@ -39,8 +39,6 @@ def toggle_category_show_random(category_id):
     show_random = request.forms.show_random.lower() == "true"
     notes_db.category.find_one_and_update({"_id": ObjectId(category_id)},
                                           {"$set": {"show_random": show_random}})
-    notes_db.notes.update_many({"category._id": ObjectId(category_id)},
-                               {"$set": {"category.show_random": show_random}})
     return HTTPResponse(status=200)
 
 

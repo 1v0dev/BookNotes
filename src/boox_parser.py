@@ -1,6 +1,8 @@
 import os
 import string
 
+from bson import DBRef
+
 text_prefix = '【content】'
 note_prefix = '【note】'
 title_prefix = 'BOOX note | <<'
@@ -17,7 +19,7 @@ def parse_boox_file(bfile, notes_db):
         'title_hash': hash(book_title),
         'show_random': True
     }
-    category_id = notes_db.category.insert_one(category)
+    category_db = notes_db.category.insert_one(category)
 
     i = 2
     count = 0
@@ -26,7 +28,7 @@ def parse_boox_file(bfile, notes_db):
                     'shown': False,
                     'show_random': True,
                     'origin': 'Boox',
-                    'category': category}
+                    'category_id': category_db.inserted_id}
         i += 1
         document['time'] = file_lines[i]
         i += 1
