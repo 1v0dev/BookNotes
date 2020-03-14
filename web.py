@@ -1,7 +1,6 @@
 from src import boox_parser
 from bottle import route, view, request, run, static_file, HTTPResponse
 from bson.objectid import ObjectId
-
 from src.db_util import find_random_note, notes_db
 
 
@@ -58,8 +57,8 @@ def upload_boox():
     if bfile.content_type != 'text/plain':
         return dict(message='Only text files allowed')
 
-    added_notes = boox_parser.parse_boox_file(bfile, notes_db)
-    return dict(message='Added notes: ' + str(added_notes))
+    message = boox_parser.parse_boox_file(bfile, notes_db)
+    return dict(message=message)
 
 
 @route('/icon/<filename>')
