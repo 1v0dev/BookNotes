@@ -1,5 +1,5 @@
-from src import boox_parser
-from bottle import route, view, request, run, static_file, HTTPResponse
+from src import boox_parser, db_util
+from bottle import route, view, request, run, static_file, HTTPResponse, redirect
 from bson.objectid import ObjectId
 from src.db_util import find_random_note, notes_db
 
@@ -41,6 +41,12 @@ def toggle_category_show_random(category_id):
     notes_db.category.find_one_and_update({"_id": ObjectId(category_id)},
                                           {"$set": {"show_random": show_random}})
     return HTTPResponse(status=200)
+
+
+@route('/new/category', method='POST')
+def new_category():
+    db_util.new_category(request.forms.categoryTitle)
+    redirect("/list")
 
 
 @route('/upload', method='GET')

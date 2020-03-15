@@ -1,3 +1,5 @@
+import hashlib
+
 from pymongo import MongoClient
 import config as cfg
 
@@ -26,3 +28,14 @@ def find_random_note():
     else:
         return dict(note=dict(category=dict(title='No notes'),
                               text='', location=''))
+
+
+def new_category(title, title_hash=None):
+    if not title_hash:
+        title_hash = hashlib.md5(title.encode('utf-8')).hexdigest()
+    category = {
+        'title': title,
+        'title_hash': title_hash,
+        'show_random': True
+    }
+    return notes_db.category.insert_one(category)
