@@ -7,4 +7,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Upload</button>
 </form>
+<br />
+<a href="/export/png">Export to PNG</a>
 <p>{{message if message else ''}}</p>

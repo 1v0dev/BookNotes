@@ -24,7 +24,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link {{'active' if page == 'Random' else '' }}" href="/">Random</a></li>
             <li class="nav-item"><a class="nav-link {{'active' if page == 'List' else '' }}" href="/list">List</a></li>
-            <li class="nav-item"><a class="nav-link {{'active' if page == 'Upload' else '' }}" href="/upload">Upload</a></li>
+            <li class="nav-item"><a class="nav-link {{'active' if page == 'Upload' else '' }}" href="/upload">Upload/Export</a></li>
         </ul>
     </div>
 </nav>

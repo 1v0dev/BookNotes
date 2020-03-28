@@ -2,3 +2,4 @@
 *.iml
 temp.txt
 config.py
+exported/*.*
