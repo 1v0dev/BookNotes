@@ -4,7 +4,7 @@ WORKDIR /notes
 
 COPY requirements.txt requirements.txt
 
-#RUN apt-get install wkhtmltopdf
+RUN apt-get update && apt-get install -y --no-install-recommends xvfb wkhtmltopdf
 
 RUN pip install --no-cache-dir -r requirements.txt
 
